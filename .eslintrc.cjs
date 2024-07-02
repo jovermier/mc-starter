@@ -3,10 +3,12 @@ const config = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: true,
+    tsconfigRootDir: __dirname,
   },
-  plugins: ['@typescript-eslint', 'eslint-plugin-react-compiler'],
+  plugins: ['@typescript-eslint', 'eslint-plugin-react-compiler', 'css-modules'],
   extends: [
     'next/core-web-vitals',
+    'plugin:css-modules/recommended',
     'plugin:@typescript-eslint/recommended-type-checked',
     'plugin:@typescript-eslint/stylistic-type-checked',
     'plugin:@next/next/recommended',
@@ -33,6 +35,7 @@ const config = {
       'warn',
       {
         argsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
       },
     ],
     '@typescript-eslint/require-await': 'off',

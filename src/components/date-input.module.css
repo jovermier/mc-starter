@@ -1,0 +1,23 @@
+.dateInput {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.dateInput::-webkit-clear-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.dateInput::-ms-clear {
+  display: none;
+}
+
+.dateInput::-moz-clear {
+  display: none;
+}

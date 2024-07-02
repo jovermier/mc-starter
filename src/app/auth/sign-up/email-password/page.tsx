@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useNhostClient } from '@nhost/nextjs';
 
 import Input from '~/components/input';
 import SubmitButton from '~/components/submit-button';
@@ -8,12 +10,27 @@ import { signUp } from '~/app/server-actions/auth';
 
 export default function SignUpWithEmailAndPassword() {
   const [error, setError] = useState('');
+  const nhost = useNhostClient();
+  const router = useRouter();
 
   async function handleSignUp(formData: FormData) {
     const response = await signUp(formData);
 
     if (response?.error) {
       setError(response.error);
+      return;
+    }
+
+    if (response.success && response.session) {
+      const {
+        session: { refreshToken },
+      } = response;
+      if (refreshToken) {
+        await nhost.auth.refreshSession(refreshToken);
+        router.push('/');
+      }
+    } else {
+      setError('An email was sent to your email address with a link to verify your account.');
     }
   }
 

@@ -1,4 +1,4 @@
-# Nhost with Next.js Server Components
+# MC Starter - Nhost with Next.js Server Components
 
 This quickstart showcases how to correctly add authentication to a Next.js 14 project using the new App Router and Server Components. The other parts of the SDK (Storage / GraphQL/ Functions) should work the same as before.
 
@@ -42,7 +42,7 @@ This quickstart showcases how to correctly add authentication to a Next.js 14 pr
 1. Clone the repository
 
    ```sh
-   git clone https://github.com/nhost/nhost
+   git clone https://github.com/jovermier/mc-starter
    cd nhost
    ```
 
@@ -58,13 +58,11 @@ This quickstart showcases how to correctly add authentication to a Next.js 14 pr
    > Make sure you have the [Nhost CLI installed](https://docs.nhost.io/platform/cli).
 
    ```sh
-   cd examples/quickstarts/nhost-backend
    nhost up
    ```
 
 4. Terminal 2: Start the Next.js application
 
    ```sh
-   cd examples/quickstarts/nextjs-server-components
    pnpm dev
    ```

@@ -62,10 +62,10 @@ rating = 'g'
 
 [auth.session]
 [auth.session.accessToken]
-expiresIn = 60
+expiresIn = 900
 
 [auth.session.refreshToken]
-expiresIn = 180
+expiresIn = 2592000
 
 [auth.method]
 [auth.method.anonymous]
@@ -76,8 +76,8 @@ enabled = false
 
 [auth.method.emailPassword]
 hibpEnabled = false
-emailVerificationRequired = true
-passwordMinLength = 8
+emailVerificationRequired = false
+passwordMinLength = 3
 
 [auth.method.smsPasswordless]
 enabled = false

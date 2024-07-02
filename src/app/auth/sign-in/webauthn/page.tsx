@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { NhostClient } from '@nhost/nhost-js';
+import { NhostClient } from '@nhost/nextjs';
 import Cookies from 'js-cookie';
 
 import Input from '~/components/input';

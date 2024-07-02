@@ -11,3 +11,4 @@ android/
 notes/
 .next/
 zodExampleSchema.ts
+src/components/ui/*
