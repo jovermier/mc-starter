@@ -3,6 +3,8 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "GraphQL.vscode-graphql-syntax",
-    "herrmannplatz.npm-dependency-links"
+    "herrmannplatz.npm-dependency-links",
+    "bradlc.vscode-tailwindcss",
+    "csstools.postcss"
   ]
 }
