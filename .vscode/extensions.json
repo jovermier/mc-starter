@@ -5,6 +5,10 @@
     "GraphQL.vscode-graphql-syntax",
     "herrmannplatz.npm-dependency-links",
     "bradlc.vscode-tailwindcss",
-    "csstools.postcss"
+    "csstools.postcss",
+    "mikestead.dotenv",
+    "tamasfe.even-better-toml",
+    "donjayamanne.githistory",
+    "herrmannplatz.npm-dependency-links"
   ]
 }

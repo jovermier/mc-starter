@@ -1,6 +1,5 @@
 import { type CodegenConfig } from '@graphql-codegen/cli';
 import { NhostClient } from '@nhost/nhost-js';
-import { merge } from 'lodash';
 
 const nhost = new NhostClient({
   subdomain: process.env.NHOST_SUBDOMAIN ?? 'local',
@@ -9,42 +8,6 @@ const nhost = new NhostClient({
 });
 
 const graphqlUrl = nhost.graphql.httpUrl;
-
-const ts: CodegenConfig['generates'][number] = {
-  plugins: [
-    'typescript',
-    'typescript-operations',
-    'named-operations-object',
-    'fragment-matcher',
-    'typescript-react-apollo',
-  ],
-  config: {
-    skipTypename: false,
-    withHooks: true,
-    withHOC: false,
-    reactApolloVersion: 3,
-    useExplicitTyping: true,
-    strictScalars: true,
-    scalars: {
-      Date: { input: 'string | Date', output: 'string | Date' }, // ISO date string, compatible with TypeScript Date type
-      Email_timestamptz: { input: 'string | Date', output: 'string | Date' }, // ISO date string for email timestamps
-      Email_uuid: 'uuid', // UUID as string for emails
-      bigint: 'number', // Use 'string' if the environment does not support 'bigint'
-      bytea: 'Uint8Array', // Use Node.js Buffer for binary data; alternatively, use 'string' for base64 encoded values
-      citext: 'string', // Case-insensitive text as string
-      date: 'string', // Date without time, ISO date string format
-      float8: 'number', // Double precision floating point as number
-      jsonb: 'jsonb', // More specific than 'any', for JSON objects
-      numeric: 'string', // Use string to safely represent very large or precise numbers
-      smallint: 'number', // Small integer, safely represented as number
-      time: 'string', // Time without timezone, as string
-      timestamp: { input: 'string | Date', output: 'string | Date' }, // Timestamp with timezone, as ISO date string
-      timestamptz: { input: 'string | Date', output: 'string | Date' }, // Timestamp with timezone, as ISO date string
-      timetz: 'string', // Time with timezone, as string
-      uuid: 'uuid', // UUID as string
-    },
-  },
-};
 
 const config: CodegenConfig = {
   overwrite: true,
@@ -62,7 +25,7 @@ const config: CodegenConfig = {
   ],
   documents: ['./src/**/*.graphql'],
   generates: {
-    './src/generated/graphql.ts': merge({}, ts, {
+    './src/generated/graphql.ts': {
       plugins: [
         'typescript',
         'typescript-operations',
@@ -71,6 +34,12 @@ const config: CodegenConfig = {
         'typescript-react-apollo',
       ],
       config: {
+        skipTypename: false,
+        withHooks: true,
+        withHOC: false,
+        reactApolloVersion: 3,
+        useExplicitTyping: true,
+        strictScalars: true,
         defaultBaseOptions: {
           context: {
             headers: {
@@ -78,8 +47,24 @@ const config: CodegenConfig = {
             },
           },
         },
+        scalars: {
+          Date: { input: 'string | Date', output: 'string | Date' }, // ISO date string, compatible with TypeScript Date type
+          bigint: 'number', // Use 'string' if the environment does not support 'bigint'
+          bytea: 'Uint8Array', // Use Node.js Buffer for binary data; alternatively, use 'string' for base64 encoded values
+          citext: 'string', // Case-insensitive text as string
+          // date: 'string', // Date without time, ISO date string format
+          float8: 'number', // Double precision floating point as number
+          jsonb: 'jsonb', // More specific than 'any', for JSON objects
+          // numeric: 'string', // Use string to safely represent very large or precise numbers
+          smallint: 'number', // Small integer, safely represented as number
+          time: 'string', // Time without timezone, as string
+          timestamp: { input: 'string | Date', output: 'string | Date' }, // Timestamp with timezone, as ISO date string
+          timestamptz: { input: 'string | Date', output: 'string | Date' }, // Timestamp with timezone, as ISO date string
+          timetz: 'string', // Time with timezone, as string
+          uuid: 'uuid', // UUID as string
+        },
       },
-    }),
+    },
   },
 };
 
