@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { GraphQLClient, RequestOptions } from 'graphql-request';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -11,7 +11,7 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> =
   | T
   | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-const defaultOptions = {} as const;
+type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -5469,126 +5469,9 @@ export type Virus_Updates = {
   where: Virus_Bool_Exp;
 };
 
-export type GetPersonalAccessTokensQueryVariables = Exact<{
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-}>;
+export type TestQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetPersonalAccessTokensQuery = {
-  __typename?: 'query_root';
-  authRefreshTokens: Array<{
-    __typename?: 'authRefreshTokens';
-    id: uuid;
-    metadata?: jsonb | null;
-    type: AuthRefreshTokenTypes_Enum;
-    expiresAt: string | Date;
-  }>;
-  authRefreshTokensAggregate: {
-    __typename?: 'authRefreshTokens_aggregate';
-    aggregate?: { __typename?: 'authRefreshTokens_aggregate_fields'; count: number } | null;
-  };
-};
-
-export type GetTodosQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type GetTodosQuery = {
-  __typename?: 'query_root';
-  todos: Array<{
-    __typename?: 'todos';
-    id: uuid;
-    title: string;
-    done: boolean;
-    attachment?: { __typename?: 'files'; id: uuid } | null;
-  }>;
-  todos_aggregate: {
-    __typename?: 'todos_aggregate';
-    aggregate?: { __typename?: 'todos_aggregate_fields'; count: number } | null;
-  };
-};
-
-export type SubTodosSubscriptionVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type SubTodosSubscription = {
-  __typename?: 'subscription_root';
-  todos: Array<{
-    __typename?: 'todos';
-    id: uuid;
-    title: string;
-    done: boolean;
-    attachment?: { __typename?: 'files'; id: uuid } | null;
-  }>;
-};
-
-export type SubTodosCountSubscriptionVariables = Exact<{ [key: string]: never }>;
-
-export type SubTodosCountSubscription = {
-  __typename?: 'subscription_root';
-  todos_aggregate: {
-    __typename?: 'todos_aggregate';
-    aggregate?: { __typename?: 'todos_aggregate_fields'; count: number } | null;
-  };
-};
-
-export type InsertTodoMutationVariables = Exact<{
-  title: Scalars['String']['input'];
-  file_id?: InputMaybe<Scalars['uuid']['input']>;
-}>;
-
-export type InsertTodoMutation = {
-  __typename?: 'mutation_root';
-  insert_todos_one?: { __typename?: 'todos'; id: uuid } | null;
-};
-
-export type UpdateTodoMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  done: Scalars['Boolean']['input'];
-}>;
-
-export type UpdateTodoMutation = {
-  __typename?: 'mutation_root';
-  update_todos_by_pk?: { __typename?: 'todos'; id: uuid; title: string; done: boolean } | null;
-};
-
-export type DeleteTodoMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-export type DeleteTodoMutation = {
-  __typename?: 'mutation_root';
-  delete_todos_by_pk?: { __typename?: 'todos'; id: uuid } | null;
-};
-
-export type DeletePersonalAccessTokenMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-export type DeletePersonalAccessTokenMutation = {
-  __typename?: 'mutation_root';
-  deleteAuthRefreshToken?: { __typename?: 'authRefreshTokens'; id: uuid } | null;
-};
-
-export const namedOperations = {
-  Query: {
-    GetPersonalAccessTokens: 'GetPersonalAccessTokens',
-    GetTodos: 'GetTodos',
-  },
-  Mutation: {
-    InsertTodo: 'InsertTodo',
-    UpdateTodo: 'UpdateTodo',
-    DeleteTodo: 'DeleteTodo',
-    DeletePersonalAccessToken: 'DeletePersonalAccessToken',
-  },
-  Subscription: {
-    SubTodos: 'SubTodos',
-    SubTodosCount: 'SubTodosCount',
-  },
-};
+export type TestQuery = { __typename: 'query_root' };
 
 export type PossibleTypesResultData = {
   possibleTypes: {};
@@ -5598,413 +5481,39 @@ const result: PossibleTypesResultData = {
 };
 export default result;
 
-export const GetPersonalAccessTokensDocument = gql`
-  query GetPersonalAccessTokens($offset: Int, $limit: Int) {
-    authRefreshTokens(
-      offset: $offset
-      limit: $limit
-      order_by: { createdAt: desc }
-      where: { type: { _eq: pat } }
-    ) {
-      id
-      metadata
-      type
-      expiresAt
-    }
-    authRefreshTokensAggregate(where: { type: { _eq: pat } }) {
-      aggregate {
-        count
-      }
-    }
+export const TestDocument = gql`
+  query Test {
+    __typename
   }
 `;
 
-/**
- * __useGetPersonalAccessTokensQuery__
- *
- * To run a query within a React component, call `useGetPersonalAccessTokensQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPersonalAccessTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPersonalAccessTokensQuery({
- *   variables: {
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useGetPersonalAccessTokensQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetPersonalAccessTokensQuery,
-    GetPersonalAccessTokensQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetPersonalAccessTokensQuery, GetPersonalAccessTokensQueryVariables>(
-    GetPersonalAccessTokensDocument,
-    options,
-  );
-}
-export function useGetPersonalAccessTokensLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetPersonalAccessTokensQuery,
-    GetPersonalAccessTokensQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetPersonalAccessTokensQuery, GetPersonalAccessTokensQueryVariables>(
-    GetPersonalAccessTokensDocument,
-    options,
-  );
-}
-export function useGetPersonalAccessTokensSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetPersonalAccessTokensQuery,
-    GetPersonalAccessTokensQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetPersonalAccessTokensQuery,
-    GetPersonalAccessTokensQueryVariables
-  >(GetPersonalAccessTokensDocument, options);
-}
-export type GetPersonalAccessTokensQueryHookResult = ReturnType<
-  typeof useGetPersonalAccessTokensQuery
->;
-export type GetPersonalAccessTokensLazyQueryHookResult = ReturnType<
-  typeof useGetPersonalAccessTokensLazyQuery
->;
-export type GetPersonalAccessTokensSuspenseQueryHookResult = ReturnType<
-  typeof useGetPersonalAccessTokensSuspenseQuery
->;
-export type GetPersonalAccessTokensQueryResult = Apollo.QueryResult<
-  GetPersonalAccessTokensQuery,
-  GetPersonalAccessTokensQueryVariables
->;
-export const GetTodosDocument = gql`
-  query GetTodos($limit: Int, $offset: Int) {
-    todos(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
-      id
-      title
-      done
-      attachment {
-        id
-      }
-    }
-    todos_aggregate {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
+export type SdkFunctionWrapper = <T>(
+  action: (requestHeaders?: Record<string, string>) => Promise<T>,
+  operationName: string,
+  operationType?: string,
+  variables?: any,
+) => Promise<T>;
 
-/**
- * __useGetTodosQuery__
- *
- * To run a query within a React component, call `useGetTodosQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTodosQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTodosQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function useGetTodosQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetTodosQuery, GetTodosQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
-}
-export function useGetTodosLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetTodosQuery, GetTodosQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
-}
-export function useGetTodosSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<GetTodosQuery, GetTodosQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
-}
-export type GetTodosQueryHookResult = ReturnType<typeof useGetTodosQuery>;
-export type GetTodosLazyQueryHookResult = ReturnType<typeof useGetTodosLazyQuery>;
-export type GetTodosSuspenseQueryHookResult = ReturnType<typeof useGetTodosSuspenseQuery>;
-export type GetTodosQueryResult = Apollo.QueryResult<GetTodosQuery, GetTodosQueryVariables>;
-export const SubTodosDocument = gql`
-  subscription SubTodos($limit: Int, $offset: Int) {
-    todos(limit: $limit, offset: $offset, order_by: { createdAt: desc }) {
-      id
-      title
-      done
-      attachment {
-        id
-      }
-    }
-  }
-`;
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType, _variables) =>
+  action();
 
-/**
- * __useSubTodosSubscription__
- *
- * To run a query within a React component, call `useSubTodosSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubTodosSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSubTodosSubscription({
- *   variables: {
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function useSubTodosSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<SubTodosSubscription, SubTodosSubscriptionVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<SubTodosSubscription, SubTodosSubscriptionVariables>(
-    SubTodosDocument,
-    options,
-  );
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+  return {
+    Test(
+      variables?: TestQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<TestQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<TestQuery>(TestDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'Test',
+        'query',
+        variables,
+      );
+    },
+  };
 }
-export type SubTodosSubscriptionHookResult = ReturnType<typeof useSubTodosSubscription>;
-export type SubTodosSubscriptionResult = Apollo.SubscriptionResult<SubTodosSubscription>;
-export const SubTodosCountDocument = gql`
-  subscription SubTodosCount {
-    todos_aggregate {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
-
-/**
- * __useSubTodosCountSubscription__
- *
- * To run a query within a React component, call `useSubTodosCountSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubTodosCountSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSubTodosCountSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useSubTodosCountSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    SubTodosCountSubscription,
-    SubTodosCountSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<SubTodosCountSubscription, SubTodosCountSubscriptionVariables>(
-    SubTodosCountDocument,
-    options,
-  );
-}
-export type SubTodosCountSubscriptionHookResult = ReturnType<typeof useSubTodosCountSubscription>;
-export type SubTodosCountSubscriptionResult = Apollo.SubscriptionResult<SubTodosCountSubscription>;
-export const InsertTodoDocument = gql`
-  mutation InsertTodo($title: String!, $file_id: uuid) {
-    insert_todos_one(object: { title: $title, file_id: $file_id }) {
-      id
-    }
-  }
-`;
-export type InsertTodoMutationFn = Apollo.MutationFunction<
-  InsertTodoMutation,
-  InsertTodoMutationVariables
->;
-
-/**
- * __useInsertTodoMutation__
- *
- * To run a mutation, you first call `useInsertTodoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertTodoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertTodoMutation, { data, loading, error }] = useInsertTodoMutation({
- *   variables: {
- *      title: // value for 'title'
- *      file_id: // value for 'file_id'
- *   },
- * });
- */
-export function useInsertTodoMutation(
-  baseOptions?: Apollo.MutationHookOptions<InsertTodoMutation, InsertTodoMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<InsertTodoMutation, InsertTodoMutationVariables>(
-    InsertTodoDocument,
-    options,
-  );
-}
-export type InsertTodoMutationHookResult = ReturnType<typeof useInsertTodoMutation>;
-export type InsertTodoMutationResult = Apollo.MutationResult<InsertTodoMutation>;
-export type InsertTodoMutationOptions = Apollo.BaseMutationOptions<
-  InsertTodoMutation,
-  InsertTodoMutationVariables
->;
-export const UpdateTodoDocument = gql`
-  mutation UpdateTodo($id: uuid!, $done: Boolean!) {
-    update_todos_by_pk(pk_columns: { id: $id }, _set: { done: $done }) {
-      id
-      title
-      done
-    }
-  }
-`;
-export type UpdateTodoMutationFn = Apollo.MutationFunction<
-  UpdateTodoMutation,
-  UpdateTodoMutationVariables
->;
-
-/**
- * __useUpdateTodoMutation__
- *
- * To run a mutation, you first call `useUpdateTodoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTodoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateTodoMutation, { data, loading, error }] = useUpdateTodoMutation({
- *   variables: {
- *      id: // value for 'id'
- *      done: // value for 'done'
- *   },
- * });
- */
-export function useUpdateTodoMutation(
-  baseOptions?: Apollo.MutationHookOptions<UpdateTodoMutation, UpdateTodoMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateTodoMutation, UpdateTodoMutationVariables>(
-    UpdateTodoDocument,
-    options,
-  );
-}
-export type UpdateTodoMutationHookResult = ReturnType<typeof useUpdateTodoMutation>;
-export type UpdateTodoMutationResult = Apollo.MutationResult<UpdateTodoMutation>;
-export type UpdateTodoMutationOptions = Apollo.BaseMutationOptions<
-  UpdateTodoMutation,
-  UpdateTodoMutationVariables
->;
-export const DeleteTodoDocument = gql`
-  mutation DeleteTodo($id: uuid!) {
-    delete_todos_by_pk(id: $id) {
-      id
-    }
-  }
-`;
-export type DeleteTodoMutationFn = Apollo.MutationFunction<
-  DeleteTodoMutation,
-  DeleteTodoMutationVariables
->;
-
-/**
- * __useDeleteTodoMutation__
- *
- * To run a mutation, you first call `useDeleteTodoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTodoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteTodoMutation, { data, loading, error }] = useDeleteTodoMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteTodoMutation(
-  baseOptions?: Apollo.MutationHookOptions<DeleteTodoMutation, DeleteTodoMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteTodoMutation, DeleteTodoMutationVariables>(
-    DeleteTodoDocument,
-    options,
-  );
-}
-export type DeleteTodoMutationHookResult = ReturnType<typeof useDeleteTodoMutation>;
-export type DeleteTodoMutationResult = Apollo.MutationResult<DeleteTodoMutation>;
-export type DeleteTodoMutationOptions = Apollo.BaseMutationOptions<
-  DeleteTodoMutation,
-  DeleteTodoMutationVariables
->;
-export const DeletePersonalAccessTokenDocument = gql`
-  mutation DeletePersonalAccessToken($id: uuid!) {
-    deleteAuthRefreshToken(id: $id) {
-      id
-    }
-  }
-`;
-export type DeletePersonalAccessTokenMutationFn = Apollo.MutationFunction<
-  DeletePersonalAccessTokenMutation,
-  DeletePersonalAccessTokenMutationVariables
->;
-
-/**
- * __useDeletePersonalAccessTokenMutation__
- *
- * To run a mutation, you first call `useDeletePersonalAccessTokenMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeletePersonalAccessTokenMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deletePersonalAccessTokenMutation, { data, loading, error }] = useDeletePersonalAccessTokenMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeletePersonalAccessTokenMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeletePersonalAccessTokenMutation,
-    DeletePersonalAccessTokenMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeletePersonalAccessTokenMutation,
-    DeletePersonalAccessTokenMutationVariables
-  >(DeletePersonalAccessTokenDocument, options);
-}
-export type DeletePersonalAccessTokenMutationHookResult = ReturnType<
-  typeof useDeletePersonalAccessTokenMutation
->;
-export type DeletePersonalAccessTokenMutationResult =
-  Apollo.MutationResult<DeletePersonalAccessTokenMutation>;
-export type DeletePersonalAccessTokenMutationOptions = Apollo.BaseMutationOptions<
-  DeletePersonalAccessTokenMutation,
-  DeletePersonalAccessTokenMutationVariables
->;
+export type Sdk = ReturnType<typeof getSdk>;

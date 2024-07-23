@@ -1,6 +1,7 @@
 node_modules/*
 public/*
 src/generated/*
+functions/_utils/graphql.ts
 build/*
 reportWebVitals.ts
 serviceWorker.ts

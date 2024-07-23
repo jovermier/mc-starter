@@ -40,13 +40,13 @@ const config: CodegenConfig = {
         reactApolloVersion: 3,
         useExplicitTyping: true,
         strictScalars: true,
-        defaultBaseOptions: {
-          context: {
-            headers: {
-              'x-hasura-role': 'admin',
-            },
-          },
-        },
+        // defaultBaseOptions: {
+        //   context: {
+        //     headers: {
+        //       'x-hasura-role': 'admin',
+        //     },
+        //   },
+        // },
         scalars: {
           Date: { input: 'string | Date', output: 'string | Date' }, // ISO date string, compatible with TypeScript Date type
           bigint: 'number', // Use 'string' if the environment does not support 'bigint'

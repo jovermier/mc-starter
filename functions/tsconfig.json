@@ -6,7 +6,10 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "typeRoots": ["./_utils/@types/global.d.ts"]
   },
   "include": ["./", "../lib/**/*.ts"],
   "exclude": ["node_modules"]
