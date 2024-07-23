@@ -3,42 +3,28 @@
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useSubscription } from '@apollo/client';
 
-import {
-  SubTodosCountDocument,
-  type SubTodosCountSubscription,
-  type SubTodosCountSubscriptionVariables,
-  SubTodosDocument,
-  type SubTodosSubscription,
-  type SubTodosSubscriptionVariables,
-} from '~/generated/graphql';
+import { useSubTodosCountSubscription, useSubTodosSubscription } from '~/generated/graphql';
 import TodoItem, { type Todo } from '~/components/todo-item';
 
 const TodosCSRSubscription = () => {
   const pageString = useSearchParams().get('page');
   const page = pageString ? parseInt(pageString) : 0;
 
-  const countRes = useSubscription<SubTodosCountSubscription, SubTodosCountSubscriptionVariables>(
-    SubTodosCountDocument,
-    {
-      fetchPolicy: 'cache-first',
-      shouldResubscribe: false,
-    },
-  );
+  const countRes = useSubTodosCountSubscription({
+    fetchPolicy: 'cache-first',
+    shouldResubscribe: false,
+  });
   const count = countRes.data?.todos_aggregate?.aggregate?.count;
 
-  const subRes = useSubscription<SubTodosSubscription, SubTodosSubscriptionVariables>(
-    SubTodosDocument,
-    {
-      variables: {
-        offset: page * 10,
-        limit: 10,
-      },
-      fetchPolicy: 'cache-first',
-      shouldResubscribe: false,
+  const subRes = useSubTodosSubscription({
+    variables: {
+      offset: page * 10,
+      limit: 10,
     },
-  );
+    fetchPolicy: 'cache-first',
+    shouldResubscribe: false,
+  });
 
   const dataRef = useRef(subRes.data);
   useEffect(() => {
